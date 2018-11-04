@@ -9,12 +9,42 @@ namespace ObserverPatternDemo.Implemantation.Observable
         public int Humidity { get; set; }
         public int Pressure { get; set; }
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// <exception cref="FormatException">The {format}</exception>
         public string ToString(string format) => ToString(format, CultureInfo.CurrentCulture);
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public string ToString(IFormatProvider formatProvider) => ToString("G", formatProvider);
 
+        /// <summary>
+        /// Converts to string.
+        /// </summary>
+        /// <param name="format">The format.</param>
+        /// <param name="formatProvider">The format provider.</param>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
+        /// <exception cref="FormatException">The {format}</exception>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (formatProvider == null)
