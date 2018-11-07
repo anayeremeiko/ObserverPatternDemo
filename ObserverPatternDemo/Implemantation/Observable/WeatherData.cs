@@ -3,59 +3,27 @@ using System.Collections.Generic;
 
 namespace ObserverPatternDemo.Implemantation.Observable
 {
-    public class WeatherData : IObservable<WeatherInfo>
+    public class WeatherData
     {
-        private List<IObserver<WeatherInfo>> observers;
+        /// <summary>
+        /// Occurs when weather change.
+        /// </summary>
+        public event EventHandler<WeatherInfoEventArgs> WeatherChange = delegate { };
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="WeatherData"/> class.
+        /// Generates the weather.
         /// </summary>
-        public WeatherData()
+        public void GenerateWeather()
         {
-            observers = new List<IObserver<WeatherInfo>>();
+            var random = new Random();
+            var weather = new WeatherInfoEventArgs(random.Next(30), random.Next(772, 780), random.Next(100));
+            OnWeatherChange(weather);
         }
 
         /// <summary>
-        /// Notifies the observer that the provider has raised event.
+        /// Raises the <see cref="E:WeatherChange" /> event.
         /// </summary>
-        /// <param name="sender">The object that is to raised notifications.</param>
-        /// <param name="info">The current notification information.</param>
-        public void Notify(IObservable<WeatherInfo> sender, WeatherInfo info)
-        {
-            foreach (var observer in observers)
-            {
-                observer.Update(sender, info);
-            }
-        }
-
-        /// <summary>
-        /// Registers the observer
-        /// </summary>
-        /// <param name="observer">The object that is to receive notifications.</param>
-        /// <exception cref="ArgumentException">Observer is already registered.</exception>
-        public void Register(IObserver<WeatherInfo> observer)
-        {
-            if (observers.Contains(observer))
-            {
-                throw new ArgumentException($"{nameof(observer)} is already registered.");
-            }
-
-            observers.Add(observer);
-        }
-
-        /// <summary>
-        /// Unregisters the observer
-        /// </summary>
-        /// <param name="observer">The object that is to receive notifications.</param>
-        /// <exception cref="ArgumentException">Observer doesn't registered.</exception>
-        public void Unregister(IObserver<WeatherInfo> observer)
-        {
-            if (!observers.Contains(observer))
-            {
-                throw new ArgumentException($"{nameof(observer)} doesn't registered.");
-            }
-
-            observers.Remove(observer);
-        }
+        /// <param name="info">The <see cref="WeatherInfoEventArgs"/> instance containing the event data.</param>
+        protected virtual void OnWeatherChange(WeatherInfoEventArgs info) => WeatherChange?.Invoke(this, info);
     }
 }

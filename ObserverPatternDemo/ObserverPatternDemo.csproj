@@ -43,12 +43,9 @@
   <ItemGroup>
     <Compile Include="Implemantation\Observers\CurrentConditionsReport.cs" />
     <Compile Include="Implemantation\Observers\StatisticReport.cs" />
-    <Compile Include="Observer Interface\EventInfo.cs" />
-    <Compile Include="Observer Interface\IObservable.cs" />
-    <Compile Include="Observer Interface\IObserver.cs" />
     <Compile Include="Implemantation\Observable\WeatherData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implemantation\Observable\WeatherInfo.cs" />
+    <Compile Include="Implemantation\Observable\WeatherInfoEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Task description.txt" />

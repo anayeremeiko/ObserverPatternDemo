@@ -6,35 +6,42 @@ using ObserverPatternDemo.Implemantation.Observable;
 
 namespace ObserverPatternDemo.Implemantation.Observers
 {
-    public class StatisticReport : IObserver<WeatherInfo>
+    public class StatisticReport
     {
-        private List<WeatherInfo> statistic;
+        private List<WeatherInfoEventArgs> statistic;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StatisticReport"/> class.
         /// </summary>
-        public StatisticReport()
-        {
-            statistic = new List<WeatherInfo>();
-        }
+        public StatisticReport() => statistic = new List<WeatherInfoEventArgs>();
+
+        /// <summary>
+        /// Subscribes to the specified weather station.
+        /// </summary>
+        /// <param name="weatherStation">The weather station.</param>
+        public void Register(WeatherData weatherStation) => weatherStation.WeatherChange += this.Update;
+
+        /// <summary>
+        /// Unsubscribes from the specified weather station.
+        /// </summary>
+        /// <param name="weatherStation">The weather station.</param>
+        public void Unregister(WeatherData weatherStation) => weatherStation.WeatherChange -= this.Update;
 
         /// <summary>
         /// Handles an event.
         /// </summary>
         /// <param name="sender">The object that is to raised notifications.</param>
-        /// <param name="info">The current notification information.</param>
-        public void Update(IObservable<WeatherInfo> sender, WeatherInfo info)
-        {
-            statistic.Add(info);
-        }
+        /// <param name="infoEventArgs">The current notification information.</param>
+        public void Update(object sender, WeatherInfoEventArgs infoEventArgs) => statistic.Add(infoEventArgs);
 
+        #region ToString
         /// <summary>
         /// Converts to string.
         /// </summary>
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="ArgumentNullException">There is no weather info yet.</exception>
+        /// <exception cref="ArgumentNullException">There is no weather infoEventArgs yet.</exception>
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
 
         /// <summary>
@@ -45,7 +52,7 @@ namespace ObserverPatternDemo.Implemantation.Observers
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
         /// <exception cref="FormatException">The {format}</exception>
-        /// <exception cref="ArgumentNullException">There is no weather info yet.</exception>
+        /// <exception cref="ArgumentNullException">There is no weather infoEventArgs yet.</exception>
         public string ToString(string format) => ToString(format, CultureInfo.CurrentCulture);
 
         /// <summary>
@@ -55,7 +62,7 @@ namespace ObserverPatternDemo.Implemantation.Observers
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="ArgumentNullException">There is no weather info yet.</exception>
+        /// <exception cref="ArgumentNullException">There is no weather infoEventArgs yet.</exception>
         public string ToString(IFormatProvider formatProvider) => ToString("G", formatProvider);
 
         /// <summary>
@@ -66,13 +73,13 @@ namespace ObserverPatternDemo.Implemantation.Observers
         /// <returns>
         /// A <see cref="System.String" /> that represents this instance.
         /// </returns>
-        /// <exception cref="ArgumentNullException">There is no info yet.</exception>
+        /// <exception cref="ArgumentNullException">There is no infoEventArgs yet.</exception>
         /// <exception cref="FormatException">The {format}</exception>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             if (statistic == null)
             {
-                throw new ArgumentNullException("There is no info yet.");
+                throw new ArgumentNullException("There is no infoEventArgs yet.");
             }
 
             if (formatProvider == null)
@@ -94,5 +101,6 @@ namespace ObserverPatternDemo.Implemantation.Observers
 
             return result.ToString();
         }
+        #endregion
     }
 }
